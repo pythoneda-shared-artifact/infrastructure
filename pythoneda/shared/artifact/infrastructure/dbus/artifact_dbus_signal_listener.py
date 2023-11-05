@@ -18,16 +18,25 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+import abc
 from dbus_next import BusType, Message
 from pythoneda.event import Event
 from pythoneda.shared.artifact_changes.events import (
     ArtifactChangesCommitted,
+    ArtifactCommitPushed,
+    ArtifactCommitTagged,
+    ArtifactTagPushed,
+    CommittedChangesPushed,
     CommittedChangesTagged,
     StagedChangesCommitted,
     TagPushed,
 )
 from pythoneda.shared.artifact_changes.events.infrastructure.dbus import (
     DbusArtifactChangesCommitted,
+    DbusArtifactCommitPushed,
+    DbusArtifactCommitTagged,
+    DbusArtifactTagPushed,
+    DbusCommittedChangesPushed,
     DbusCommittedChangesTagged,
     DbusStagedChangesCommitted,
     DbusTagPushed,
@@ -36,7 +45,7 @@ from pythoneda.infrastructure.dbus import DbusSignalListener
 from typing import Dict
 
 
-class ArtifactDbusSignalListener(DbusSignalListener):
+class ArtifactDbusSignalListener(DbusSignalListener, abc.ABC):
 
     """
     A Port that listens to domain-artifact-relevant d-bus signals.
@@ -50,6 +59,10 @@ class ArtifactDbusSignalListener(DbusSignalListener):
     Collaborators:
         - pythoneda.application.pythoneda.PythonEDA: Receives relevant domain events.
         - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusArtifactChangesCommitted
+        - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusArtifactCommitPushed
+        - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusArtifactCommitTagged
+        - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusArtifactTagPushed
+        - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusCommittedChangesPushed
         - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusCommittedChangesTagged
         - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusStagedChangesCommitted
         - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusTagPushed
@@ -70,12 +83,22 @@ class ArtifactDbusSignalListener(DbusSignalListener):
         :rtype: Dict
         """
         result = {}
+        key = self.__class__.full_class_name(ArtifactChangesCommitted)
+        result[key] = [DbusArtifactChangesCommitted, BusType.SYSTEM]
+        key = self.__class__.full_class_name(ArtifactCommitPushed)
+        result[key] = [DbusArtifactCommitPushed, BusType.SYSTEM]
+        key = self.__class__.full_class_name(ArtifactCommitTagged)
+        result[key] = [DbusArtifactCommitTagged, BusType.SYSTEM]
+        key = self.__class__.full_class_name(ArtifactTagPushed)
+        result[key] = [DbusArtifactTagPushed, BusType.SYSTEM]
+
+        key = self.__class__.full_class_name(CommittedChangesPushed)
+        result[key] = [DbusCommittedChangesPushed, BusType.SYSTEM]
+        key = self.__class__.full_class_name(CommittedChangesTagged)
+        result[key] = [DbusCommittedChangesTagged, BusType.SYSTEM]
         key = self.__class__.full_class_name(StagedChangesCommitted)
         result[key] = [DbusStagedChangesCommitted, BusType.SYSTEM]
         key = self.__class__.full_class_name(TagPushed)
         result[key] = [DbusTagPushed, BusType.SYSTEM]
-        key = self.__class__.full_class_name(CommittedChangesTagged)
-        result[key] = [DbusCommittedChangesTagged, BusType.SYSTEM]
-        key = self.__class__.full_class_name(ArtifactChangesCommitted)
-        result[key] = [DbusArtifactChangesCommitted, BusType.SYSTEM]
+
         return result

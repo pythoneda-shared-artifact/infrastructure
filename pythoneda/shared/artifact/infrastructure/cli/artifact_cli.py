@@ -18,12 +18,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+import abc
 import argparse
 from importlib import import_module
 from pythoneda import BaseObject, PrimaryPort
 
 
-class ArtifactCli(BaseObject, PrimaryPort):
+class ArtifactCli(BaseObject, PrimaryPort, abc.ABC):
 
     """
     A PrimaryPort to be used as post-commit-hook in git to send StagedChangesCommitted events.
