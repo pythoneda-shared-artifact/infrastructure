@@ -1,5 +1,5 @@
 """
-pythoneda/shared/artifact/infrastructure/cli/git_post_commit_hook_cli.py
+pythoneda/shared/artifact/infrastructure/cli/artifact_cli.py
 
 This file defines the ArtifactCli.
 
@@ -69,10 +69,6 @@ class ArtifactCli(BaseObject, PrimaryPort, abc.ABC):
                 "CommittedChangesPushed",
                 "CommittedChangesTagged",
                 "TagPushed",
-                "ArtifactChangesCommitted",
-                "ArtifactCommitPushed",
-                "ArtifactCommitTagged",
-                "ArtifactTagPushed",
             ],
             help="The type of event to send.",
         )

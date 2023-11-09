@@ -19,7 +19,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from pythoneda.infrastructure.cli import CliHandler
-from pythoneda.shared.artifact_changes.events import CommittedChangesPushed
+from pythoneda.shared.artifact.events import CommittedChangesPushed
 from pythoneda.shared.git import GitRepo
 import sys
 
@@ -36,7 +36,7 @@ class CommittedChangesPushedCliHandler(CliHandler):
 
     Collaborators:
         - pythoneda.artifact.application.ArtifactApp: Gets notified back to process the CommittedChangesPushed event.
-        - pythoneda.shared.artifact_changes.events.CommittedChangesPushed
+        - pythoneda.shared.artifact.events.CommittedChangesPushed
     """
 
     def __init__(self, app):
@@ -62,4 +62,4 @@ class CommittedChangesPushedCliHandler(CliHandler):
                 args.tag, git_repo.url, git_repo.rev, git_repo.folder
             )
             CommittedChangesPushedCliHandler.logger().debug(event)
-            await self.app.accept(event)
+            await self.app.emit(event)

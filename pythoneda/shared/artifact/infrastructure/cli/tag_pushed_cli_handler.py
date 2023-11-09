@@ -19,7 +19,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from pythoneda.infrastructure.cli import CliHandler
-from pythoneda.shared.artifact_changes.events import TagPushed
+from pythoneda.shared.artifact.events import TagPushed
 from pythoneda.shared.git import GitCommit, GitRepo
 import sys
 
@@ -36,7 +36,7 @@ class TagPushedCliHandler(CliHandler):
 
     Collaborators:
         - pythoneda.artifact.application.ArtifactApp: Gets notified back to process the TagPushed event.
-        - pythoneda.shared.artifact_changes.events.TagPushed
+        - pythoneda.shared.artifact.events.TagPushed
     """
 
     def __init__(self, app):
@@ -67,4 +67,4 @@ class TagPushedCliHandler(CliHandler):
                     args.tag, hash, git_repo.url, git_repo.rev, args.repository_folder
                 )
                 TagPushedCliHandler.logger().debug(event)
-                await self.app.accept(event)
+                await self.app.emit(event)

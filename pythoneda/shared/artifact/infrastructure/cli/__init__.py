@@ -20,11 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 
-from .artifact_changes_committed_cli_handler import ArtifactChangesCommittedCliHandler
 from .artifact_cli import ArtifactCli
-from .artifact_commit_pushed_cli_handler import ArtifactCommitPushedCliHandler
-from .artifact_commit_tagged_cli_handler import ArtifactCommitTaggedCliHandler
-from .artifact_tag_pushed_cli_handler import ArtifactTagPushedCliHandler
 from .committed_changes_pushed_cli_handler import CommittedChangesPushedCliHandler
 from .committed_changes_tagged_cli_handler import CommittedChangesTaggedCliHandler
 from .repository_folder_cli import RepositoryFolderCli

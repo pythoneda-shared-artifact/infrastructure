@@ -19,8 +19,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from pythoneda.infrastructure.cli import CliHandler
-from pythoneda.shared.artifact_changes import Change
-from pythoneda.shared.artifact_changes.events import StagedChangesCommitted
+from pythoneda.shared.artifact.events import Change, StagedChangesCommitted
 from pythoneda.shared.git import GitCommit, GitDiff, GitRepo
 import sys
 
@@ -37,7 +36,7 @@ class StagedChangesCommittedCliHandler(CliHandler):
 
     Collaborators:
         - pythoneda.artifact.application.ArtifactApp: Gets notified back to process the StagedChangesCommitted event.
-        - pythoneda.shared.artifact_changes.events.StagedChangesCommitted
+        - pythoneda.shared.artifact.events.StagedChangesCommitted
     """
 
     def __init__(self, app):
@@ -68,4 +67,4 @@ class StagedChangesCommittedCliHandler(CliHandler):
             hash, diff = GitCommit(args.repository_folder).latest_commit()
             event = StagedChangesCommitted(change, hash)
             StagedChangesCommittedCliHandler.logger().debug(event)
-            await self.app.accept(event)
+            await self.app.emit(event)
