@@ -21,21 +21,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import abc
 from dbus_next import BusType, Message
 from pythoneda.event import Event
-from pythoneda.shared.artifact_changes.events import (
-    ArtifactChangesCommitted,
-    ArtifactCommitPushed,
-    ArtifactCommitTagged,
-    ArtifactTagPushed,
+from pythoneda.shared.artifact.events import (
     CommittedChangesPushed,
     CommittedChangesTagged,
     StagedChangesCommitted,
     TagPushed,
 )
-from pythoneda.shared.artifact_changes.events.infrastructure.dbus import (
-    DbusArtifactChangesCommitted,
-    DbusArtifactCommitPushed,
-    DbusArtifactCommitTagged,
-    DbusArtifactTagPushed,
+from pythoneda.shared.artifact.events.infrastructure.dbus import (
     DbusCommittedChangesPushed,
     DbusCommittedChangesTagged,
     DbusStagedChangesCommitted,
@@ -58,14 +50,7 @@ class ArtifactDbusSignalListener(DbusSignalListener, abc.ABC):
 
     Collaborators:
         - pythoneda.application.pythoneda.PythonEDA: Receives relevant domain events.
-        - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusArtifactChangesCommitted
-        - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusArtifactCommitPushed
-        - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusArtifactCommitTagged
-        - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusArtifactTagPushed
-        - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusCommittedChangesPushed
-        - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusCommittedChangesTagged
-        - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusStagedChangesCommitted
-        - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusTagPushed
+        - pythoneda.shared.artifact.events.infrastructure.dbus.*
     """
 
     def __init__(self):
@@ -83,14 +68,6 @@ class ArtifactDbusSignalListener(DbusSignalListener, abc.ABC):
         :rtype: Dict
         """
         result = {}
-        key = self.__class__.full_class_name(ArtifactChangesCommitted)
-        result[key] = [DbusArtifactChangesCommitted, BusType.SYSTEM]
-        key = self.__class__.full_class_name(ArtifactCommitPushed)
-        result[key] = [DbusArtifactCommitPushed, BusType.SYSTEM]
-        key = self.__class__.full_class_name(ArtifactCommitTagged)
-        result[key] = [DbusArtifactCommitTagged, BusType.SYSTEM]
-        key = self.__class__.full_class_name(ArtifactTagPushed)
-        result[key] = [DbusArtifactTagPushed, BusType.SYSTEM]
 
         key = self.__class__.full_class_name(CommittedChangesPushed)
         result[key] = [DbusCommittedChangesPushed, BusType.SYSTEM]

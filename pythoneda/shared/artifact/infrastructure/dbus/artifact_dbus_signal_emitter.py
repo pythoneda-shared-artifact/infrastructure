@@ -22,21 +22,13 @@ import abc
 from dbus_next import BusType
 from pythoneda import Event
 from pythoneda.infrastructure.dbus import DbusSignalEmitter
-from pythoneda.shared.artifact_changes.events import (
-    ArtifactChangesCommitted,
-    ArtifactCommitPushed,
-    ArtifactCommitTagged,
-    ArtifactTagPushed,
+from pythoneda.shared.artifact.events import (
     CommittedChangesPushed,
     CommittedChangesTagged,
     StagedChangesCommitted,
     TagPushed,
 )
-from pythoneda.shared.artifact_changes.events.infrastructure.dbus import (
-    DbusArtifactChangesCommitted,
-    DbusArtifactCommitPushed,
-    DbusArtifactCommitTagged,
-    DbusArtifactTagPushed,
+from pythoneda.shared.artifact.events.infrastructure.dbus import (
     DbusCommittedChangesPushed,
     DbusCommittedChangesTagged,
     DbusStagedChangesCommitted,
@@ -58,7 +50,7 @@ class ArtifactDbusSignalEmitter(DbusSignalEmitter, abc.ABC):
 
     Collaborators:
         - pythoneda.application.PythonEDA: Requests emitting events.
-        - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusCommittedChangesPushed
+        - pythoneda.shared.artifact.events.infrastructure.dbus.DbusCommittedChangesPushed
     """
 
     def __init__(self):
@@ -74,14 +66,6 @@ class ArtifactDbusSignalEmitter(DbusSignalEmitter, abc.ABC):
         :rtype: Dict
         """
         result = {}
-        key = self.__class__.full_class_name(ArtifactChangesCommitted)
-        result[key] = [DbusArtifactChangesCommitted, BusType.SYSTEM]
-        key = self.__class__.full_class_name(ArtifactCommitPushed)
-        result[key] = [DbusArtifactCommitPushed, BusType.SYSTEM]
-        key = self.__class__.full_class_name(ArtifactCommitTagged)
-        result[key] = [DbusArtifactCommitTagged, BusType.SYSTEM]
-        key = self.__class__.full_class_name(ArtifactTagPushed)
-        result[key] = [DbusArtifactTagPushed, BusType.SYSTEM]
 
         key = self.__class__.full_class_name(CommittedChangesPushed)
         result[key] = [DbusCommittedChangesPushed, BusType.SYSTEM]
