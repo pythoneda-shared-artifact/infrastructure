@@ -18,13 +18,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-import abc
-import argparse
+from argparse import ArgumentParser
 from importlib import import_module
 from pythoneda import BaseObject, PrimaryPort
+from pythoneda.application import PythonEDA
+from pythoneda.infrastructure.cli import CliHandler
 
 
-class ArtifactCli(BaseObject, PrimaryPort, abc.ABC):
+class ArtifactCli(CliHandler, PrimaryPort):
 
     """
     A PrimaryPort to be used as post-commit-hook in git to send StagedChangesCommitted events.
@@ -39,6 +40,12 @@ class ArtifactCli(BaseObject, PrimaryPort, abc.ABC):
         - pythoneda.shared.artifact.infrastructure.cli.*: CLI handlers.
     """
 
+    def __init__(self):
+        """
+        Creates a new ArtifactCli.
+        """
+        super().__init__("Sends artifact-related events")
+
     @classmethod
     @property
     def is_one_shot_compatible(cls) -> bool:
@@ -52,14 +59,12 @@ class ArtifactCli(BaseObject, PrimaryPort, abc.ABC):
         """
         return True
 
-    async def accept(self, app):
+    def add_arguments(self, parser: ArgumentParser):
         """
-        Processes the command specified from the command line.
-        :param app: The PythonEDA instance.
-        :type app: PythonEDA
+        Defines the specific CLI arguments.
+        :param parser: The parser.
+        :type parser: argparse.ArgumentParser
         """
-        parser = argparse.ArgumentParser(description="Sends a artifact-related events")
-
         parser.add_argument(
             "-e",
             "--event",
@@ -77,8 +82,14 @@ class ArtifactCli(BaseObject, PrimaryPort, abc.ABC):
         )
         parser.add_argument("-t", "--tag", required=False, help="The tag")
 
-        args, unknown_args = parser.parse_known_args()
-
+    async def handle(self, app: PythonEDA, args):
+        """
+        Processes the command specified from the command line.
+        :param app: The PythonEDA instance.
+        :type app: pythoneda.application.PythonEDA
+        :param args: The CLI args.
+        :type args: argparse.args
+        """
         if args.event is not None:
             event_in_snake_case = self.__class__.camel_to_snake(args.event)
 
@@ -86,4 +97,4 @@ class ArtifactCli(BaseObject, PrimaryPort, abc.ABC):
                 f"pythoneda.shared.artifact.infrastructure.cli.{event_in_snake_case}_cli_handler"
             )
             handler_class = getattr(module, f"{args.event}CliHandler")
-            await handler_class(app).handle(args)
+            await handler_class().handle(app, args)

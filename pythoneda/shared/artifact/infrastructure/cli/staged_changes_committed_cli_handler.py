@@ -18,13 +18,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-from pythoneda.infrastructure.cli import CliHandler
+from pythoneda import BaseObject
+from pythoneda.application import PythonEDA
 from pythoneda.shared.artifact.events import Change, StagedChangesCommitted
 from pythoneda.shared.git import GitCommit, GitDiff, GitRepo
 import sys
 
 
-class StagedChangesCommittedCliHandler(CliHandler):
+class StagedChangesCommittedCliHandler(BaseObject):
 
     """
     A CLI handler in charge of handling StagedChangesCommitted events.
@@ -39,17 +40,17 @@ class StagedChangesCommittedCliHandler(CliHandler):
         - pythoneda.shared.artifact.events.StagedChangesCommitted
     """
 
-    def __init__(self, app):
+    def __init__(self):
         """
         Creates a new StagedChangesCommittedCliHandler.
-        :param app: The ArtifactApp application.
-        :type app: pythoneda.artifact.application.ArtifactApp
         """
-        super().__init__(app)
+        super().__init__()
 
-    async def handle(self, args):
+    async def handle(self, app: PythonEDA, args):
         """
         Processes the command specified from the command line.
+        :param app: The PythonEDA application.
+        :type app: pythoneda.application.PythonEDA
         :param args: The CLI args.
         :type args: argparse.args
         """
@@ -64,7 +65,7 @@ class StagedChangesCommittedCliHandler(CliHandler):
                 git_repo.rev,
                 args.repository_folder,
             )
-            hash, diff = GitCommit(args.repository_folder).latest_commit()
-            event = StagedChangesCommitted(change, hash)
+            hash, diff, message = GitCommit(args.repository_folder).latest_commit()
+            event = StagedChangesCommitted(message, change, hash)
             StagedChangesCommittedCliHandler.logger().debug(event)
-            await self.app.emit(event)
+            await app.accept(event)

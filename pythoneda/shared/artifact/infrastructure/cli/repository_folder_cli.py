@@ -1,7 +1,7 @@
 """
 pythoneda/shared/artifact/infrastructure/cli/repository_folder_cli.py
 
-This file defines the RepositoryFolderCli.
+This file defines the RepositoryFolderCli class.
 
 Copyright (C) 2023-today rydnr's https://github.com/pythoneda-shared-artifact/infrastructure
 
@@ -18,12 +18,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-import abc
-import argparse
-from pythoneda import BaseObject, PrimaryPort
+from argparse import ArgumentParser
+from pythoneda import PrimaryPort
+from pythoneda.application import PythonEDA
+from pythoneda.infrastructure.cli import CliHandler
 
 
-class RepositoryFolderCli(BaseObject, PrimaryPort, abc.ABC):
+class RepositoryFolderCli(CliHandler, PrimaryPort):
 
     """
     A PrimaryPort used to gather the repository folder information.
@@ -37,7 +38,14 @@ class RepositoryFolderCli(BaseObject, PrimaryPort, abc.ABC):
         - PythonEDA subclasses: They are notified back with the information retrieved from the command line.
     """
 
-    def priority(self) -> int:
+    def __init__(self):
+        """
+        Creates a new RepositoryFolderCli instance.
+        """
+        super().__init__("Provide the repository folder of the artifact")
+
+    @classmethod
+    def priority(cls) -> int:
         """
         Retrieves the priority of this port.
         :return: The priority.
@@ -58,20 +66,22 @@ class RepositoryFolderCli(BaseObject, PrimaryPort, abc.ABC):
         """
         return True
 
-    async def accept(self, app):
+    def add_arguments(self, parser: ArgumentParser):
         """
-        Processes the command specified from the command line.
-        :param app: The PythonEDA instance.
-        :type app: PythonEDA
+        Defines the specific CLI arguments.
+        :param parser: The parser.
+        :type parser: argparse.ArgumentParser
         """
-        parser = argparse.ArgumentParser(
-            description="Provide the repository folder of the artifact"
-        )
-
         parser.add_argument(
             "-r", "--repository-folder", required=True, help="The repository folder"
         )
 
-        args, unknown_args = parser.parse_known_args()
-
+    async def handle(self, app: PythonEDA, args):
+        """
+        Processes the command specified from the command line.
+        :param app: The PythonEDA instance.
+        :type app: pythoneda.application.PythonEDA
+        :param args: The CLI args.
+        :type args: argparse.args
+        """
         app.accept_repository_folder(args.repository_folder)

@@ -18,13 +18,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-from pythoneda.infrastructure.cli import CliHandler
+from pythoneda import BaseObject
+from pythoneda.application import PythonEDA
 from pythoneda.shared.artifact.events import CommittedChangesPushed
 from pythoneda.shared.git import GitRepo
 import sys
 
 
-class CommittedChangesPushedCliHandler(CliHandler):
+class CommittedChangesPushedCliHandler(BaseObject):
 
     """
     A CLI handler in charge of handling CommittedChangesPushed events.
@@ -39,17 +40,17 @@ class CommittedChangesPushedCliHandler(CliHandler):
         - pythoneda.shared.artifact.events.CommittedChangesPushed
     """
 
-    def __init__(self, app):
+    def __init__(self):
         """
         Creates a new CommittedChangesPushedCliHandler.
-        :param app: The ArtifactApp application.
-        :type app: pythoneda.artifact.application.ArtifactApp
         """
-        super().__init__(app)
+        super().__init__()
 
-    async def handle(self, args):
+    async def handle(self, app: PythonEDA, args):
         """
         Processes the command specified from the command line.
+        :param app: The PythonEDA application.
+        :type app: pythoneda.application.PythonEDA
         :param args: The CLI args.
         :type args: argparse.args
         """
@@ -62,4 +63,4 @@ class CommittedChangesPushedCliHandler(CliHandler):
                 args.tag, git_repo.url, git_repo.rev, git_repo.folder
             )
             CommittedChangesPushedCliHandler.logger().debug(event)
-            await self.app.emit(event)
+            await app.emit(event)
