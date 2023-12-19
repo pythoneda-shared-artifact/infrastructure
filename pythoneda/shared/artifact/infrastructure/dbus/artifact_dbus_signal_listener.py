@@ -18,7 +18,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-import abc
 from dbus_next import BusType, Message
 from pythoneda.event import Event
 from pythoneda.shared.artifact.events import (
@@ -37,7 +36,7 @@ from pythoneda.infrastructure.dbus import DbusSignalListener
 from typing import Dict
 
 
-class ArtifactDbusSignalListener(DbusSignalListener, abc.ABC):
+class ArtifactDbusSignalListener(DbusSignalListener):
 
     """
     A Port that listens to domain-artifact-relevant d-bus signals.
