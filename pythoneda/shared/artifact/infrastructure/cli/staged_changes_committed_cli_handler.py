@@ -65,7 +65,7 @@ class StagedChangesCommittedCliHandler(BaseObject):
                 git_repo.rev,
                 args.repository_folder,
             )
-            hash, diff, message = GitCommit(args.repository_folder).latest_commit()
-            event = StagedChangesCommitted(message, change, hash)
+            hash_value, diff, message = GitCommit(args.repository_folder).latest_commit()
+            event = StagedChangesCommitted(message, change, hash_value)
             StagedChangesCommittedCliHandler.logger().debug(event)
             await app.accept(event)

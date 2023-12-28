@@ -19,7 +19,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from dbus_next import BusType, Message
-from pythoneda.event import Event
 from pythoneda.shared.artifact.events import (
     CommittedChangesPushed,
     CommittedChangesTagged,

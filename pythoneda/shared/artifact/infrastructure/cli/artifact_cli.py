@@ -36,7 +36,8 @@ class ArtifactCli(CliHandler, PrimaryPort):
         - Parse the command-line to retrieve the information about the commit.
 
     Collaborators:
-        - pythoneda.application.PythonEDA subclasses: They are notified back with the information retrieved from the command line.
+        - pythoneda.application.PythonEDA subclasses: They are notified back with the information retrieved
+        from the command line.
         - pythoneda.shared.artifact.infrastructure.cli.*: CLI handlers.
     """
 
