@@ -1,3 +1,4 @@
+# vim: set fileencoding=utf-8
 """
 pythoneda/shared/artifact/infrastructure/cli/artifact_cli.py
 
@@ -20,9 +21,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from argparse import ArgumentParser
 from importlib import import_module
-from pythoneda import BaseObject, PrimaryPort
-from pythoneda.application import PythonEDA
-from pythoneda.infrastructure.cli import CliHandler
+from pythoneda.shared import BaseObject, PrimaryPort
+from pythoneda.shared.application import PythonEDA
+from pythoneda.shared.infrastructure.cli import CliHandler
 
 
 class ArtifactCli(CliHandler, PrimaryPort):
@@ -36,7 +37,7 @@ class ArtifactCli(CliHandler, PrimaryPort):
         - Parse the command-line to retrieve the information about the commit.
 
     Collaborators:
-        - pythoneda.application.PythonEDA subclasses: They are notified back with the information retrieved
+        - pythoneda.shared.application.PythonEDA subclasses: They are notified back with the information retrieved
         from the command line.
         - pythoneda.shared.artifact.infrastructure.cli.*: CLI handlers.
     """
@@ -87,7 +88,7 @@ class ArtifactCli(CliHandler, PrimaryPort):
         """
         Processes the command specified from the command line.
         :param app: The PythonEDA instance.
-        :type app: pythoneda.application.PythonEDA
+        :type app: pythoneda.shared.application.PythonEDA
         :param args: The CLI args.
         :type args: argparse.args
         """

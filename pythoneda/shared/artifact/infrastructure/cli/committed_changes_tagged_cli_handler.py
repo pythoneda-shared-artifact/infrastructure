@@ -1,3 +1,4 @@
+# vim: set fileencoding=utf-8
 """
 pythoneda/shared/artifact/infrastructure/cli/committed_changes_tagged_cli_handler.py
 
@@ -18,8 +19,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-from pythoneda import BaseObject
-from pythoneda.application import PythonEDA
+from pythoneda.shared import BaseObject
+from pythoneda.shared.application import PythonEDA
 from pythoneda.shared.artifact.events import CommittedChangesTagged
 from pythoneda.shared.git import GitRepo
 import sys
@@ -50,7 +51,7 @@ class CommittedChangesTaggedCliHandler(BaseObject):
         """
         Processes the command specified from the command line.
         :param app: The PythonEDA application.
-        :type app: pythoneda.application.PythonEDA
+        :type app: pythoneda.shared.application.PythonEDA
         :param args: The CLI args.
         :type args: argparse.args
         """

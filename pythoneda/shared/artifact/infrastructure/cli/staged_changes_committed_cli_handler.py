@@ -1,3 +1,4 @@
+# vim: set fileencoding=utf-8
 """
 pythoneda/shared/artifact/infrastructure/cli/staged_changes_committed_cli_handler.py
 
@@ -18,8 +19,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-from pythoneda import BaseObject
-from pythoneda.application import PythonEDA
+from pythoneda.shared import BaseObject
+from pythoneda.shared.application import PythonEDA
 from pythoneda.shared.artifact.events import Change, StagedChangesCommitted
 from pythoneda.shared.git import GitCommit, GitDiff, GitRepo
 import sys
@@ -50,7 +51,7 @@ class StagedChangesCommittedCliHandler(BaseObject):
         """
         Processes the command specified from the command line.
         :param app: The PythonEDA application.
-        :type app: pythoneda.application.PythonEDA
+        :type app: pythoneda.shared.application.PythonEDA
         :param args: The CLI args.
         :type args: argparse.args
         """
@@ -65,7 +66,9 @@ class StagedChangesCommittedCliHandler(BaseObject):
                 git_repo.rev,
                 args.repository_folder,
             )
-            hash_value, diff, message = GitCommit(args.repository_folder).latest_commit()
+            hash_value, diff, message = GitCommit(
+                args.repository_folder
+            ).latest_commit()
             event = StagedChangesCommitted(message, change, hash_value)
             StagedChangesCommittedCliHandler.logger().debug(event)
             await app.accept(event)

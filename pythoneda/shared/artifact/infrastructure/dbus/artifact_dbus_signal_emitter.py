@@ -1,3 +1,4 @@
+# vim: set fileencoding=utf-8
 """
 pythoneda/shared/artifact/infrastructure/dbus/artifact_dbus_signal_emitter.py
 
@@ -19,7 +20,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from dbus_next import BusType
-from pythoneda.infrastructure.dbus import DbusSignalEmitter
 from pythoneda.shared.artifact.events import (
     CommittedChangesPushed,
     CommittedChangesTagged,
@@ -32,6 +32,7 @@ from pythoneda.shared.artifact.events.infrastructure.dbus import (
     DbusStagedChangesCommitted,
     DbusTagPushed,
 )
+from pythoneda.shared.infrastructure.dbus import DbusSignalEmitter
 from typing import Dict
 
 
@@ -47,7 +48,7 @@ class ArtifactDbusSignalEmitter(DbusSignalEmitter):
         - Emit domain events as d-bus signals.
 
     Collaborators:
-        - pythoneda.application.PythonEDA: Requests emitting events.
+        - pythoneda.shared.application.PythonEDA: Requests emitting events.
         - pythoneda.shared.artifact.events.infrastructure.dbus.DbusCommittedChangesPushed
     """
 

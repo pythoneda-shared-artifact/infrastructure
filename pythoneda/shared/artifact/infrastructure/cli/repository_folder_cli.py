@@ -1,3 +1,4 @@
+# vim: set fileencoding=utf-8
 """
 pythoneda/shared/artifact/infrastructure/cli/repository_folder_cli.py
 
@@ -19,9 +20,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from argparse import ArgumentParser
-from pythoneda import PrimaryPort
-from pythoneda.application import PythonEDA
-from pythoneda.infrastructure.cli import CliHandler
+from pythoneda.shared import PrimaryPort
+from pythoneda.shared.application import PythonEDA
+from pythoneda.shared.infrastructure.cli import CliHandler
 
 
 class RepositoryFolderCli(CliHandler, PrimaryPort):
@@ -80,7 +81,7 @@ class RepositoryFolderCli(CliHandler, PrimaryPort):
         """
         Processes the command specified from the command line.
         :param app: The PythonEDA instance.
-        :type app: pythoneda.application.PythonEDA
+        :type app: pythoneda.shared.application.PythonEDA
         :param args: The CLI args.
         :type args: argparse.args
         """
