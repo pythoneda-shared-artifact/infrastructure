@@ -27,3 +27,11 @@ from .committed_changes_tagged_cli_handler import CommittedChangesTaggedCliHandl
 from .repository_folder_cli import RepositoryFolderCli
 from .staged_changes_committed_cli_handler import StagedChangesCommittedCliHandler
 from .tag_pushed_cli_handler import TagPushedCliHandler
+# vim: syntax=python ts=4 sw=4 sts=4 tw=79 sr et
+# Local Variables:
+# mode: python
+# python-indent-offset: 4
+# tab-width: 4
+# indent-tabs-mode: nil
+# fill-column: 79
+# End:
