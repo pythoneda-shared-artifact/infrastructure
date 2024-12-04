@@ -23,12 +23,16 @@ from dbus_next import BusType, Message
 from pythoneda.shared.artifact.events import (
     CommittedChangesPushed,
     CommittedChangesTagged,
+    DockerImageAvailable,
+    DockerImageRequested,
     StagedChangesCommitted,
     TagPushed,
 )
 from pythoneda.shared.artifact.events.infrastructure.dbus import (
     DbusCommittedChangesPushed,
     DbusCommittedChangesTagged,
+    DbusDockerImageAvailable,
+    DbusDockerImageRequested,
     DbusStagedChangesCommitted,
     DbusTagPushed,
 )
@@ -37,7 +41,6 @@ from typing import Dict
 
 
 class ArtifactDbusSignalListener(DbusSignalListener):
-
     """
     A Port that listens to domain-artifact-relevant d-bus signals.
 
@@ -56,7 +59,7 @@ class ArtifactDbusSignalListener(DbusSignalListener):
         """
         Creates a new ArtifactDbusSignalListener instance.
         """
-        super().__init__()
+        super().__init__("pythoneda.shared.artifact.events.infrastructure.dbus")
 
     def signal_receivers(self, app) -> Dict:
         """
@@ -74,10 +77,16 @@ class ArtifactDbusSignalListener(DbusSignalListener):
         result[key] = [DbusCommittedChangesTagged, BusType.SYSTEM]
         key = self.__class__.full_class_name(StagedChangesCommitted)
         result[key] = [DbusStagedChangesCommitted, BusType.SYSTEM]
+        key = self.__class__.full_class_name(DockerImageAvailable)
+        result[key] = [DbusDockerImageAvailable, BusType.SYSTEM]
+        key = self.__class__.full_class_name(DockerImageRequested)
+        result[key] = [DbusDockerImageRequested, BusType.SYSTEM]
         key = self.__class__.full_class_name(TagPushed)
         result[key] = [DbusTagPushed, BusType.SYSTEM]
 
         return result
+
+
 # vim: syntax=python ts=4 sw=4 sts=4 tw=79 sr et
 # Local Variables:
 # mode: python
