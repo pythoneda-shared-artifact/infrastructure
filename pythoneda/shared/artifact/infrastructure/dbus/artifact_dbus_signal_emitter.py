@@ -59,7 +59,7 @@ class ArtifactDbusSignalEmitter(DbusSignalEmitter):
         """
         Creates a new ArtifactDbusSignalEmitter instance.
         """
-        super().__init__()
+        super().__init__("pythoneda.shared.artifact.events.infrastructure.dbus")
 
     def signal_emitters(self) -> Dict:
         """
