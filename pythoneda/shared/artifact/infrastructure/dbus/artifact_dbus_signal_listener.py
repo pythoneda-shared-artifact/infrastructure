@@ -24,6 +24,7 @@ from pythoneda.shared.artifact.events import (
     CommittedChangesPushed,
     CommittedChangesTagged,
     DockerImageAvailable,
+    DockerImagePushed,
     DockerImageRequested,
     StagedChangesCommitted,
     TagPushed,
@@ -32,6 +33,7 @@ from pythoneda.shared.artifact.events.infrastructure.dbus import (
     DbusCommittedChangesPushed,
     DbusCommittedChangesTagged,
     DbusDockerImageAvailable,
+    DbusDockerImagePushed,
     DbusDockerImageRequested,
     DbusStagedChangesCommitted,
     DbusTagPushed,
@@ -79,6 +81,8 @@ class ArtifactDbusSignalListener(DbusSignalListener):
         result[key] = [DbusStagedChangesCommitted, BusType.SYSTEM]
         key = self.__class__.full_class_name(DockerImageAvailable)
         result[key] = [DbusDockerImageAvailable, BusType.SYSTEM]
+        key = self.__class__.full_class_name(DockerImagePushed)
+        result[key] = [DbusDockerImagePushed, BusType.SYSTEM]
         key = self.__class__.full_class_name(DockerImageRequested)
         result[key] = [DbusDockerImageRequested, BusType.SYSTEM]
         key = self.__class__.full_class_name(TagPushed)
