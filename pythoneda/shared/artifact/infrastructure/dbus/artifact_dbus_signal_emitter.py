@@ -55,6 +55,12 @@ class ArtifactDbusSignalEmitter(DbusSignalEmitter):
     Collaborators:
         - pythoneda.shared.application.PythonEDA: Requests emitting events.
         - pythoneda.shared.artifact.events.infrastructure.dbus.DbusCommittedChangesPushed
+        - pythoneda.shared.artifact.events.infrastructure.dbus.DbusCommittedChangesTagged
+        - pythoneda.shared.artifact.events.infrastructure.dbus.DbusDockerImageAvailable
+        - pythoneda.shared.artifact.events.infrastructure.dbus.DbusDockerImagePushed
+        - pythoneda.shared.artifact.events.infrastructure.dbus.DbusDockerImageRequested
+        - pythoneda.shared.artifact.events.infrastructure.dbus.StagedChangesCommitted
+        - pythoneda.shared.artifact.events.infrastructure.dbus.TagPushed
     """
 
     def __init__(self):
