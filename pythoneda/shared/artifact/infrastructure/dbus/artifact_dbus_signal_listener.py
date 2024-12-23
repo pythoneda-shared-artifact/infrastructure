@@ -19,30 +19,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-from dbus_next import BusType, Message
-from pythoneda.shared.artifact.events import (
-    CommittedChangesPushed,
-    CommittedChangesTagged,
-    DockerImageAvailable,
-    DockerImagePushed,
-    DockerImageRequested,
-    StagedChangesCommitted,
-    TagPushed,
-)
-from pythoneda.shared.artifact.events.infrastructure.dbus import (
-    DbusCommittedChangesPushed,
-    DbusCommittedChangesTagged,
-    DbusDockerImageAvailable,
-    DbusDockerImagePushed,
-    DbusDockerImageRequested,
-    DbusStagedChangesCommitted,
-    DbusTagPushed,
-)
+import abc
 from pythoneda.shared.infrastructure.dbus import DbusSignalListener
-from typing import Dict
+from typing import List
 
 
-class ArtifactDbusSignalListener(DbusSignalListener):
+class ArtifactDbusSignalListener(DbusSignalListener, abc.ABC):
     """
     A Port that listens to domain-artifact-relevant d-bus signals.
 
@@ -61,34 +43,16 @@ class ArtifactDbusSignalListener(DbusSignalListener):
         """
         Creates a new ArtifactDbusSignalListener instance.
         """
-        super().__init__("pythoneda.shared.artifact.events.infrastructure.dbus")
+        super().__init__()
 
-    def signal_receivers(self, app) -> Dict:
+    @classmethod
+    def event_packages(cls) -> List[str]:
         """
-        Retrieves the configured signal receivers.
-        :param app: The PythonEDA instance.
-        :type app: pythoneda.shared.application.PythonEDA
-        :return: A dictionary with the signal name as key, and the tuple interface and bus type as the value.
-        :rtype: Dict
+        Retrieves the packages of the supported events.
+        :return: The packages.
+        :rtype: List[str]
         """
-        result = {}
-
-        key = self.__class__.full_class_name(CommittedChangesPushed)
-        result[key] = [DbusCommittedChangesPushed, BusType.SYSTEM]
-        key = self.__class__.full_class_name(CommittedChangesTagged)
-        result[key] = [DbusCommittedChangesTagged, BusType.SYSTEM]
-        key = self.__class__.full_class_name(StagedChangesCommitted)
-        result[key] = [DbusStagedChangesCommitted, BusType.SYSTEM]
-        key = self.__class__.full_class_name(DockerImageAvailable)
-        result[key] = [DbusDockerImageAvailable, BusType.SYSTEM]
-        key = self.__class__.full_class_name(DockerImagePushed)
-        result[key] = [DbusDockerImagePushed, BusType.SYSTEM]
-        key = self.__class__.full_class_name(DockerImageRequested)
-        result[key] = [DbusDockerImageRequested, BusType.SYSTEM]
-        key = self.__class__.full_class_name(TagPushed)
-        result[key] = [DbusTagPushed, BusType.SYSTEM]
-
-        return result
+        return ["pythoneda.shared.artifact.events.infrastructure.dbus"]
 
 
 # vim: syntax=python ts=4 sw=4 sts=4 tw=79 sr et
